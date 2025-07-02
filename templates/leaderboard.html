@@ -1,0 +1,165 @@
+
+{% extends "base.html" %} 
+{% block title %}McAlvany Private Server{% endblock %} 
+{% block content %}
+<head>
+    <style>
+        .btn-secondary a {
+            color: white;
+            text-decoration: none; /* Optionally remove underlines */
+        }
+        /* Remove margin and padding from the button group */
+        .btn-group {
+            position: absolute;
+            left: .1%;
+        }
+        body {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            position: relative;
+            top: 40px;
+        }
+        .leaderboard {
+            width: 100%; /* Set initial width */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            border: 5px solid #444; /* Add border around each leaderboard */
+            border-radius: 8px; /* Add border radius for a rounded look */
+            margin-bottom: 20px; /* Add space between leaderboards */
+        }
+        .leaderboard table {
+            border-collapse: collapse;
+            width: 100%; /* Occupy full width */
+            max-width: 100%; /* Set maximum width */
+            border-radius: 8px; /* Add rounded corners to the table */
+        }
+        .leaderboard th, .leaderboard td {
+            border: 1px solid transparent; /* Set border to transparent */
+            border-radius: 8px; /* Add border radius */
+            padding: 10px; /* Adjust padding */
+            text-align: center;
+            font-size: 12px; /* Adjust initial font size */
+        }
+        .leaderboard th {
+            background-color: #333;
+            color: #ffffff;
+            font-size: 14px; /* Adjust header font size */
+            border-top: 1px solid #555; /* Add a border to the top row */
+            border-left: 1px solid #555; /* Add a border to the left column */
+            border-right: 1px solid #555; /* Add a border to the right column */
+        }
+        h1 {
+            margin-bottom: 20px;
+            margin-top: 0;
+            font-size: 24px; /* Adjust heading font size */
+            text-align: left; /* Align h1 to the left */
+            padding-left: 20px; /* Adjust left padding */
+        }
+        /* Media Query for smaller screens */
+        @media screen and (max-width: 768px) {
+            .leaderboard th, .leaderboard td {
+                font-size: 6px; /* Adjust font size for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex justify-content-start">
+        <div class="btn-group" role="group" aria-label="Button group with nested links">
+            <a href="/leaderboard" class="btn btn-secondary ">Leaderboards</a>
+            <a href="/tradingmpm" class="btn btn-secondary">Trading Tools</a>
+            <a href="/performance" class="btn btn-secondary">Performance</a>
+        </div>
+    </div>
+
+    <div class="leaderboard-container">
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="{{ leaderboard_data.shape[0] + 1 }}">Monthly Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rank: 1 {{ leaderboard_data.iloc[0]['TRADER'] }}</td>
+                        {% for index, row in leaderboard_data.iloc[1:].iterrows() %}
+                            <td>Rank: {{ index + 1 }} {{ row['TRADER'] }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add other leaderboard sections below -->
+    <div class="leaderboard-container">
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="{{ leaderboard_data.shape[0] + 1 }}">YTD Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rank: 1 {{ leaderboard_data1.iloc[0]['TRADER'] }}</td>
+                        {% for index, row in leaderboard_data1.iloc[1:].iterrows() %}
+                            <td>Rank: {{ index + 1 }} {{ row['TRADER'] }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="leaderboard-container">
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="{{ leaderboard_data.shape[0] + 1 }}">Monthly Rare Coin Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rank: 1 {{ leaderboard_data2.iloc[0]['TRADER'] }}</td>
+                        {% for index, row in leaderboard_data2.iloc[1:].iterrows() %}
+                            <td>Rank: {{ index + 1 }} {{ row['TRADER'] }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="leaderboard-container">
+        <div class="leaderboard">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="{{ leaderboard_data.shape[0] + 1 }}">YTD Rare Coin Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rank: 1 {{ leaderboard_data3.iloc[0]['TRADER'] }}</td>
+                        {% for index, row in leaderboard_data3.iloc[1:].iterrows() %}
+                            <td>Rank: {{ index + 1 }} {{ row['TRADER'] }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+{% endblock %}

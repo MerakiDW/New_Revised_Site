@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}McAlvany Private Server{% endblock %}
+{% block content%}
+
+<head>
+    
+    <style>
+        /* Your existing styles */
+        .btn-secondary a {
+            color: white;
+            text-decoration: none;
+        }
+        .btn-group {
+            position: absolute;
+            left: .1%;
+        }
+        body {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Search bar styles */
+        .search-container {
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: flex-start;
+            position: absolute;
+            margin-top: 45px;
+            left: .5%;
+            width: 300px;
+        }
+        .search-input {
+            border: none;
+            border-bottom: 1px solid #fff;
+            background-color: transparent;
+            color: white;
+            padding: 5px;
+            margin-right: 2px;
+            outline: none;
+        }
+        .search-btn {
+            border: none;
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .centered-content {
+            position: relative;
+            top: calc(15vh);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 33vh;
+        }
+        /* Style for the table */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+            /* position: relative;
+            margin-top: 20px; */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: smaller;
+        }
+        .additional-columns {
+            display: none;
+        }
+        .additional-columns td {
+            border: none;
+            padding: 8px;
+            text-align: left;
+            font-size: smaller;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex justify-content-start">
+        <div class="btn-group" role="group" aria-label="Button group with nested links">
+            <a href="/leaderboard" class="btn btn-secondary ">Leaderboards</a>
+            <a href="/tradingmpm" class="btn btn-secondary">Trading Tools</a>
+            <a href="/performance" class="btn btn-secondary">Performance</a>
+        </div>
+    </div>
+    <div class="search-container">
+        <form method="POST" action="/tradingmpm">
+            <input type="text" class="search-input" placeholder="Search Client Number" name="client_number" required>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+    <div class="centered-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Client Number</th>
+                    <th>Trade id</th>
+                    <th>Item Code</th>
+                    <th>Quantity</th>
+                    <th>Trade Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if client_data %}
+                    {% for row in client_data %}
+                        <tr class="clickable-row" data-row-id="{{ loop.index }}" style="cursor: pointer;">
+                            <td>{{ row.CLIENT_NUM }}</td>
+                            <td>{{ row.TRADE_NUM }}</td>
+                            <td>{{ row.ITEM_CODE }}</td>
+                            <td>{{ row.QUANTITY }}</td>
+                            <td>{{ row.TD }}</td>
+                        </tr>
+                        <tr class="additional-columns" id="additional-columns-{{ loop.index }}" style="display: none;">
+                            <td colspan="5">
+                                <table>
+                                    <tbody>
+                                        {% for column_name, value in row.items() %}
+                                            {% if column_name not in ['CLIENT_NUM', 'TRADE_BROKER', 'ITEM_CODE', 'QUANTITY', 'TD','EXTENDED', 'UNIT_PRICE', 'Silver Bulk Generic Bullion', 'Gold Bulk Generic Bullion'] %}
+                                                {% if value is not none and value|int > 9 %}
+                                                    <tr>
+                                                        <td>{{ column_name }}</td>
+                                                        <td>{{ value }} %</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% for row in all_client_data %}
+                        <tr class="clickable-row" data-row-id="{{ loop.index }}" style="cursor: pointer;">
+                            <td>{{ row.CLIENT_NUM }}</td>
+                            <td>{{ row.TRADE_NUM }}</td>
+                            <td>{{ row.ITEM_CODE }}</td>
+                            <td>{{ row.QUANTITY }}</td>
+                            <td>{{ row.TD }}</td>
+                        </tr>
+                        <tr class="additional-columns" id="additional-columns-{{ loop.index }}" style="display: none;">
+                            <td colspan="5">
+                                <table>
+                                    <tbody>
+                                        {% for column_name, value in row.items() %}
+                                            {% if column_name not in ['CLIENT_NUM', 'TRADE_BROKER', 'ITEM_CODE', 'QUANTITY', 'TD','EXTENDED', 'UNIT_PRICE', 'Silver Bulk Generic Bullion', 'Gold Bulk Generic Bullion'] %}
+                                                {% if value is not none and value|int > 9 %}
+                                                    <tr>
+                                                        <td>{{ column_name }}</td>
+                                                        <td>{{ value }} %</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".clickable-row").forEach(function(row) {
+                row.addEventListener("click", function() {
+                    let rowId = this.getAttribute("data-row-id");
+                    let additionalColumns = document.getElementById("additional-columns-" + rowId);
+                    if (additionalColumns.style.display === "none" || !additionalColumns.style.display) {
+                        additionalColumns.style.display = "table-row";
+                    } else {
+                        additionalColumns.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+{% endblock %}

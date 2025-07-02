@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}McAlvany Private Server{% endblock %} {% block content
+    %}
+    
+    <head>
+        
+        <style>
+            
+            .btn-secondary a {
+                color: white;
+                text-decoration: none; /* Optionally remove underlines */
+            }
+
+
+                /* Remove margin and padding from the button group */
+            .btn-group {
+                position: absolute;
+                left: .1%;
+            }
+            body {
+                background-color: #1f1f1f;
+                color: #ffffff;
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+ 
+        </style>
+    </head>
+    <body>
+        <div class="d-flex justify-content-start">
+            <div class="btn-group" role="group" aria-label="Button group with nested links">
+                <a href="/leaderboard" class="btn btn-secondary ">Leaderboards</a>
+                <a href="/tradingmpm" class="btn btn-secondary">Trading Tools</a>
+                <a href="/performance" class="btn btn-secondary">Performance</a>
+            </div>
+        </div>
+    </body>
+    <h1 align="center" style="color: white;">Precious Metals Private</h1>
+
+    {% endblock %}

@@ -1,0 +1,244 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f9fc;
+        }
+
+        .sidebar {
+            width: 200px;
+			border-radius: 8px;			
+            background-color: #000;
+            color: #fff;
+            height: 100vh; /* sets the height of an element to be equal to 100% */
+            position: fixed; 
+			margin:5px; /* Margin is the outside distance of object */
+            top: 10;
+            left: 10;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+			
+			 
+			/* Other attributes */
+			box-shadow: 5px 5px 5px 0.1px gray;/* the drop shawdow of the column */
+			
+		
+        }
+
+        .sidebar img {
+            width: 175px;
+            margin-bottom: 20px;
+        }
+
+.sidebar-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Stretches menu items to match sidebar width */
+}
+
+.menu-item {
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensures full width inside the sidebar */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+        .menu-item:hover {
+            background-color: #333;
+        }
+
+        .submenu {
+            display: none;
+            background-color: #222;
+            padding-left: 20px;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .submenu a:hover {
+            background-color: #444;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .panel-content {
+            display: none;
+            padding-top: 10px;
+        }
+
+        .panel-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .panel-content th, .panel-content td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search button:hover {
+            background-color: #0056b3;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+		
+		
+        tr:hover {
+            /* background-color: #f2f2f2; Lt. Gray */ 
+			background-color: #DDEEF3; /*Lt Blue-Gray */
+        }
+		
+		
+	
+ .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .panel th, .panel td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+		
+		.login_text {
+		/* color: #04385C; */
+		color:#045F80; 
+		font-size: 20px;
+		font-weight: bold;
+		}
+/* Style for LOGIN AREA  PASSWORD BUTTON */
+ input[type="password"] {
+            width: 30%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+		
+ input[type="email"] {
+            width: 30%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+		
+        button {
+            width: 25%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }

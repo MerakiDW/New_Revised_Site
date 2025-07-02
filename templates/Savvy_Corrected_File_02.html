@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Explorer App Mockup</title>
+   <link rel="stylesheet" href="Styles/main.css">
+</head>
+<body>
+    <nav class="sidebar" aria-label="Main navigation">
+        <img src="images/McAlvany_Logo_Dk_Blue_BG.png" alt="McAlvany Logo" width="175" height="auto">
+        <div class="sidebar-menu">
+            <button class="menu-item" onclick="toggleSubmenu(0)" aria-expanded="false" aria-controls="submenu-0">Dashboard</button>
+            <div class="submenu" id="submenu-0">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    <a class="nav-item nav-link" id="pm" href="/mcalvanypm">Precious Metals</a>
+                    <a class="nav-item nav-link" id="mwm" href="/mcalvanymwm">Wealth Management</a>
+                    {% if current_user.email == 'koa@mcalvany.com' %}
+                        <a class="nav-item nav-link" id="admin" href="/admin">Admin</a>
+                    {% endif %}
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                {% else %}
+                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                    <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                {% endif %}
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(1)" onmouseover="showPrices(this)" aria-expanded="false" aria-controls="submenu-1">Menu 1
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-1">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(2)" onmouseover="showPrices(this)" aria-expanded="false" aria-controls="submenu-2">Gold/Silver $
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-2">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(3)" onmouseover="showPlatDiam(this)" aria-expanded="false" aria-controls="submenu-3">Platinum/Diamonds $
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-3">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="header-div">
+            <h1>Account Explorer App</h1>
+            <div class="login-text">Welcome: Miles A. Head</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-1">
+                <h2>Clients</h2>
+                <button class="btn">Add Client</button>
+            </div>
+            <div class="panel-content" id="panel-content-1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Imma Champion</td>
+                            <td>IC00710401132025</td>
+                        </tr>
+                        <tr>
+                            <td>Rocky Rhoades</td>
+                            <td>RR70172201122025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-2">
+                <h2>Cost Summary</h2>
+                <button class="btn">Add Formula Row</button>
+            </div>
+            <div class="panel-content" id="panel-content-2">
+                <div class="search">
+                    <input type="text" placeholder="Search..." aria-label="Search cost summary">
+                    <button>Search</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Formula</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BR0203</td>
+                            <td>$399,829.941</td>
+                        </tr>
+                        <tr>
+                            <td>BR0205</td>
+                            <td>$420,484.298</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="faq-panel">
+            <div class="faq">
+                <div class="question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-1">How to create a search?</div>
+                <div class="answer" id="faq-answer-1">You can use the following terms in your search:...</div>
+            </div>
+            <div class="faq">
+                <div class="question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-2">What are the supported variables?</div>
+                <div class="answer" id="faq-answer-2">The supported variables include:...</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <table id="client">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Appt. Date</th>
+                        <th onclick="sortTable(1)">Appt. Time</th>
+                        <th onclick="sortTable(2)">Provider Name</th>
+                        <th onclick="sortTable(3)">Patient Name</th>
+                        <th onclick="sortTable(4)">Appt. Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="expandable-row" onclick="toggleRow(this)">
+                        <td>01/20/2022</td>
+                        <td>10:00 AM</td>
+                        <td>Dr. Smith</td>
+                        <td>John Doe</td>
+                        <td>Cancelled</td>
+                        <td><button>Print</button></td>
+                    </tr>
+                    <tr class="expanded-content">
+                        <td colspan="6">Additional details about the appointment...</td>
+                    </tr>
+                    <tr class="expandable-row" onclick="toggleRow(this)">
+                        <td>01/21/2022</td>
+                        <td>11:00 AM</td>
+                        <td>Dr. Brown</td>
+                        <td>Jane Doe</td>
+                        <td>Completed</td>
+                        <td><button>Print</button></td>
+                    </tr>
+                    <tr class="expanded-content">
+                        <td colspan="6">Additional details about the appointment...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-3">
+                <h2>Cost Summary Number 2</h2>
+                <button class="btn">Add Something</button>
+            </div>
+            <div class="panel-content" id="panel-content-3">
+                <div class="search">
+                    <input type="text" placeholder="Search..." aria-label="Search cost summary number 2">
+                    <button>Search</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Appt. Date</th>
+                            <th onclick="sortTable(1)">Appt. Time</th>
+                            <th onclick="sortTable(2)">Provider Name</th>
+                            <th onclick="sortTable(3)">Patient Name</th>
+                            <th onclick="sortTable(4)">Appt. Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="expandable-row" onclick="toggleRow(this)">
+                            <td>01/20/2022</td>
+                            <td>10:00 AM</td>
+                            <td>Dr. Smith</td>
+                            <td>John Doe</td>
+                            <td>Cancelled</td>
+                            <td><button>Print</button></td>
+                        </tr>
+                        <tr class="expanded-content">
+                            <td colspan="6">Additional details about the appointment...</td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleRow(this)">
+                            <td>01/21/2022</td>
+                            <td>11:00 AM</td>
+                            <td>Dr. Brown</td>
+                            <td>Jane Doe</td>
+                            <td>Completed</td>
+                            <td><button>Print</button></td>
+                        </tr>
+                        <tr class="expanded-content">
+                            <td colspan="6">Additional details about the appointment...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(index) {
+            const allSubmenus = document.querySelectorAll('.submenu');
+            allSubmenus.forEach((submenu, idx) => {
+                if (idx === index) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    submenu.style.display = 'none';
+                }
+            });
+        }
+
+        function togglePanel(header) {
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showPrices(element) {
+            const tooltip = element.querySelector('.tooltip-text');
+            const silverPrice = (Math.random() * 50).toFixed(2);
+            const goldPrice = (Math.random() * 2000).toFixed(2);
+            tooltip.textContent = `Silver: $${silverPrice}/oz, Gold: $${goldPrice}/oz`;
+        }
+
+        function showPlatDiam(element) {
+            const tooltip = element.querySelector('.tooltip-text');
+            const PlatPrice = (Math.random() * 50).toFixed(2);
+            const DiamPrice = (Math.random() * 2000).toFixed(2);
+            tooltip.textContent = `Platinum: $${PlatPrice}/oz, Diamonds: $${DiamPrice}/oz`;
+        }
+
+        function toggleFaq(faqElement) {
+            const answer = faqElement.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleRow(row) {
+            const nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('expanded-content')) {
+                nextRow.style.display = nextRow.style.display === 'table-row' ? 'none' : 'table-row';
+            }
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById('client');
+            const rows = Array.from(table.rows).slice(1);
+            rows.sort((a, b) => a.cells[columnIndex].innerText.localeCompare(b.cells[columnIndex].innerText));
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+        }
+    </script>
+</body>
+</html>

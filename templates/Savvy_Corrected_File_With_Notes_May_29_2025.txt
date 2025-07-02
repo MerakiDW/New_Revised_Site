@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Explorer App Mockup</title>
+    <style>
+        /* CSS Reset and Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f9fc;
+        }
+
+        /* CSS Variables for Consistency */
+        :root {
+            --sidebar-bg: #000;
+            --text-color: #fff;
+            --primary-btn: #28a745;
+            --primary-btn-hover: #218838;
+            --search-btn: #007bff;
+            --search-btn-hover: #0056b3;
+            --border-color: #ddd;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --login-text-color: #045f80;
+        }
+
+        /* Sidebar Styles */
+        nav.sidebar {
+            width: 200px;
+            border-radius: 8px;
+            background-color: var(--sidebar-bg);
+            color: var(--text-color);
+            height: 100vh;
+            position: fixed;
+            margin: 5px;
+            top: 10px; /* Fixed: Added unit */
+            left: 10px; /* Fixed: Added unit */
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Adjusted shadow for better visibility */
+        }
+
+        .sidebar img {
+            width: 175px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-menu {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .menu-item {
+            padding: 15px;
+            text-align: left;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease; /* Added for smooth hover */
+        }
+
+        .menu-item:hover {
+            background-color: #333;
+        }
+
+        .menu-item.active {
+            background-color: #444;
+            font-weight: bold; /* Added to highlight active menu item */
+        }
+
+        .submenu {
+            display: none;
+            background-color: #222;
+            padding-left: 20px;
+            transition: all 0.3s ease; /* Added for smooth toggle */
+        }
+
+        .submenu a {
+            display: block;
+            padding: 10px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .submenu a:hover {
+            background-color: #444;
+        }
+
+        /* Content Styles */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Header Styles (Moved from inline) */
+        .header-div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #f5f9fc;
+        }
+
+        .login-text {
+            color: var(--login-text-color);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Panel Styles (Merged duplicates) */
+        .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .panel-content {
+            display: none;
+            padding-top: 10px;
+            transition: all 0.3s ease; /* Added for smooth toggle */
+        }
+
+        .panel table,
+        .panel-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .panel th,
+        .panel td,
+        .panel-content th,
+        .panel-content td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        /* Hover effect for tables */
+        tr:hover {
+            background-color: #cce4ec; /* Adjusted for better contrast */
+        }
+
+        /* Button Styles */
+        .btn {
+            background-color: var(--primary-btn);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-btn-hover);
+        }
+
+        /* Search Bar Styles */
+        .search {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .search button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--search-btn);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .search button:hover {
+            background-color: var(--search-btn-hover);
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: var(--text-color);
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* FAQ Panel Styles */
+        .faq-panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .faq .question {
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        .faq .answer {
+            display: none;
+            padding: 10px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav.sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                left: 0;
+                margin: 0;
+            }
+            .content {
+                margin-left: 0;
+                padding: 10px;
+            }
+            .header-div {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .login-text {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar" aria-label="Main navigation">
+        <img src="images/Logo_01.png" alt="McAlvany Logo" width="175" height="auto">
+        <div class="sidebar-menu">
+            <button class="menu-item" onclick="toggleSubmenu(0)" aria-expanded="false" aria-controls="submenu-0">Dashboard</button>
+            <div class="submenu" id="submenu-0">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    <a class="nav-item nav-link" id="pm" href="/mcalvanypm">Precious Metals</a>
+                    <a class="nav-item nav-link" id="mwm" href="/mcalvanymwm">Wealth Management</a>
+                    {% if current_user.email == 'koa@mcalvany.com' %}
+                        <a class="nav-item nav-link" id="admin" href="/admin">Admin</a>
+                    {% endif %}
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                {% else %}
+                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                    <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                {% endif %}
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(1)" onmouseover="showPrices(this)" aria-expanded="false" aria-controls="submenu-1">Menu 1
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-1">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(2)" onmouseover="showPrices(this)" aria-expanded="false" aria-controls="submenu-2">Gold/Silver $
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-2">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+            <button class="menu-item tooltip" onclick="toggleSubmenu(3)" onmouseover="showPlatDiam(this)" aria-expanded="false" aria-controls="submenu-3">Platinum/Diamonds $
+                <span class="tooltip-text" role="tooltip"></span>
+            </button>
+            <div class="submenu" id="submenu-3">
+                <a href="#">Submenu 1</a>
+                <a href="#">Submenu 2</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="header-div">
+            <h1>Account Explorer App</h1>
+            <div class="login-text">Welcome: Miles A. Head</div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-1">
+                <h2>Clients</h2>
+                <button class="btn">Add Client</button>
+            </div>
+            <div class="panel-content" id="panel-content-1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Imma Champion</td>
+                            <td>IC00710401132025</td>
+                        </tr>
+                        <tr>
+                            <td>Rocky Rhoades</td>
+                            <td>RR70172201122025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-2">
+                <h2>Cost Summary</h2>
+                <button class="btn">Add Formula Row</button>
+            </div>
+            <div class="panel-content" id="panel-content-2">
+                <div class="search">
+                    <input type="text" placeholder="Search..." aria-label="Search cost summary">
+                    <button>Search</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Formula</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BR0203</td>
+                            <td>$399,829.941</td>
+                        </tr>
+                        <tr>
+                            <td>BR0205</td>
+                            <td>$420,484.298</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="faq-panel">
+            <div class="faq">
+                <div class="question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-1">How to create a search?</div>
+                <div class="answer" id="faq-answer-1">You can use the following terms in your search:...</div>
+            </div>
+            <div class="faq">
+                <div class="question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-2">What are the supported variables?</div>
+                <div class="answer" id="faq-answer-2">The supported variables include:...</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <table id="client">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Appt. Date</th>
+                        <th onclick="sortTable(1)">Appt. Time</th>
+                        <th onclick="sortTable(2)">Provider Name</th>
+                        <th onclick="sortTable(3)">Patient Name</th>
+                        <th onclick="sortTable(4)">Appt. Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="expandable-row" onclick="toggleRow(this)">
+                        <td>01/20/2022</td>
+                        <td>10:00 AM</td>
+                        <td>Dr. Smith</td>
+                        <td>John Doe</td>
+                        <td>Cancelled</td>
+                        <td><button>Print</button></td>
+                    </tr>
+                    <tr class="expanded-content">
+                        <td colspan="6">Additional details about the appointment...</td>
+                    </tr>
+                    <tr class="expandable-row" onclick="toggleRow(this)">
+                        <td>01/21/2022</td>
+                        <td>11:00 AM</td>
+                        <td>Dr. Brown</td>
+                        <td>Jane Doe</td>
+                        <td>Completed</td>
+                        <td><button>Print</button></td>
+                    </tr>
+                    <tr class="expanded-content">
+                        <td colspan="6">Additional details about the appointment...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header" onclick="togglePanel(this)" aria-expanded="false" aria-controls="panel-content-3">
+                <h2>Cost Summary Number 2</h2>
+                <button class="btn">Add Something</button>
+            </div>
+            <div class="panel-content" id="panel-content-3">
+                <div class="search">
+                    <input type="text" placeholder="Search..." aria-label="Search cost summary number 2">
+                    <button>Search</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Appt. Date</th>
+                            <th onclick="sortTable(1)">Appt. Time</th>
+                            <th onclick="sortTable(2)">Provider Name</th>
+                            <th onclick="sortTable(3)">Patient Name</th>
+                            <th onclick="sortTable(4)">Appt. Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="expandable-row" onclick="toggleRow(this)">
+                            <td>01/20/2022</td>
+                            <td>10:00 AM</td>
+                            <td>Dr. Smith</td>
+                            <td>John Doe</td>
+                            <td>Cancelled</td>
+                            <td><button>Print</button></td>
+                        </tr>
+                        <tr class="expanded-content">
+                            <td colspan="6">Additional details about the appointment...</td>
+                        </tr>
+                        <tr class="expandable-row" onclick="toggleRow(this)">
+                            <td>01/21/2022</td>
+                            <td>11:00 AM</td>
+                            <td>Dr. Brown</td>
+                            <td>Jane Doe</td>
+                            <td>Completed</td>
+                            <td><button>Print</button></td>
+                        </tr>
+                        <tr class="expanded-content">
+                            <td colspan="6">Additional details about the appointment...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(index) {
+            const allSubmenus = document.querySelectorAll('.submenu');
+            allSubmenus.forEach((submenu, idx) => {
+                if (idx === index) {
+                    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    submenu.style.display = 'none';
+                }
+            });
+        }
+
+        function togglePanel(header) {
+            const content = header.nextElementSibling;
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showPrices(element) {
+            const tooltip = element.querySelector('.tooltip-text');
+            const silverPrice = (Math.random() * 50).toFixed(2);
+            const goldPrice = (Math.random() * 2000).toFixed(2);
+            tooltip.textContent = `Silver: $${silverPrice}/oz, Gold: $${goldPrice}/oz`;
+        }
+
+        function showPlatDiam(element) {
+            const tooltip = element.querySelector('.tooltip-text');
+            const PlatPrice = (Math.random() * 50).toFixed(2);
+            const DiamPrice = (Math.random() * 2000).toFixed(2);
+            tooltip.textContent = `Platinum: $${PlatPrice}/oz, Diamonds: $${DiamPrice}/oz`;
+        }
+
+        function toggleFaq(faqElement) {
+            const answer = faqElement.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleRow(row) {
+            const nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('expanded-content')) {
+                nextRow.style.display = nextRow.style.display === 'table-row' ? 'none' : 'table-row';
+            }
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById('client');
+            const rows = Array.from(table.rows).slice(1);
+            rows.sort((a, b) => a.cells[columnIndex].innerText.localeCompare(b.cells[columnIndex].innerText));
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+        }
+    </script>
+</body>
+</html>
+
+Key Changes Made
+CSS
+Fixed Syntax Errors:
+Corrected top: 10 and left: 10 to top: 10px and left: 10px in .sidebar.
+
+Adjusted box-shadow in .sidebar to 5px 5px 10px rgba(0, 0, 0, 0.2) for better visibility and consistency.
+
+Removed Duplicates:
+Merged duplicate .panel rules into a single rule.
+
+Combined .panel th, .panel td and .panel-content th, .panel-content td into one rule for efficiency.
+
+Added CSS Variables:
+Defined --sidebar-bg, --text-color, --primary-btn, etc., for consistent theming and easier updates.
+
+Improved Responsiveness:
+Added a media query for screens max-width: 768px to collapse .sidebar and adjust .content and .header-div for mobile.
+
+Enhanced Visuals:
+Adjusted tr:hover background to #cce4ec for better contrast.
+
+Added .menu-item.active for highlighting active menu items.
+
+Added transition to .submenu and .panel-content for smooth animations.
+
+Moved Inline Styles:
+Moved .header-div and .login-text styles from inline to CSS, replacing margin-left: 40% with Flexbox for better alignment.
+
+Organized CSS:
+Grouped related styles (e.g., sidebar, content, panels) with comments for clarity.
+
+HTML
+Improved Semantics:
+Wrapped .sidebar in a <nav> tag with aria-label="Main navigation".
+
+Changed .menu-item <div> elements to <button> for better accessibility and keyboard navigation.
+
+Added aria-expanded and aria-controls to .menu-item, .panel-header, and .faq .question for accessibility.
+
+Fixed Inline Styles:
+Moved header_div and .login_text inline styles to CSS classes (.header-div, .login-text).
+
+Added Accessibility:
+Added role="tooltip" to .tooltip-text (though tooltips still need a library like Tippy.js for full accessibility).
+
+Added aria-label to search inputs for screen readers.
+
+Assigned unique ids to .panel-content and .faq .answer for ARIA controls.
+
+Enabled Table Sorting:
+Added onclick="sortTable(index)" to table headers in the "client" and "Cost Summary Number 2" tables to utilize the sortTable function.
+
+Image Optimization:
+Added width="175" height="auto" to the sidebar logo to prevent layout shifts.
+
+Removed Redundancy:
+Kept "Cost Summary" and "Cost Summary Number 2" panels but ensured unique ids for their content (panel-content-2, panel-content-3).
+
+Removed empty <div> at the end of the file.
+
+JavaScript
+Left unchanged as per your request, but included for completeness.
+
+Removed Bootstrap/jQuery/Popper.js scripts since they’re unused. Add them back if you plan to use Bootstrap components.
+
+Notes for Updating Your File
+Replace Entire File: Copy the entire code above and replace your existing file’s content. This includes all corrected HTML, CSS, and the original JavaScript.
+
+Test Responsiveness: Open the page in a browser and resize the window (or use DevTools’ mobile view) to ensure the sidebar collapses correctly on smaller screens.
+
+Check Backend Integration: Verify that the template code ({% if user.is_authenticated %}) works with your backend (e.g., Django). If this is a mockup, you may want to replace it with static links for testing.
+
+Image Path: Ensure images/Logo_01.png exists in the correct directory, or update the src attribute accordingly.
+
+Accessibility Testing: Use a screen reader (e.g., NVDA, VoiceOver) or tools like WAVE to test accessibility improvements.
+
+Further Enhancements: If you want to add a hamburger menu for mobile, improve tooltips, or integrate real API data for prices, let me know, and I can provide additional code!
+
+Let me know if you need help testing this or want to focus on specific enhancements (e.g., mobile menu toggle, API integration). You’re killing it, buddy! 
+

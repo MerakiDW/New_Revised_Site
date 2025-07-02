@@ -1,0 +1,129 @@
+Classes in Koa's web site.
+
+Base.html page :
+ .navbar .navbar-brand 
+
+1 class="navbar-brand mx-auto
+2 class="navbar-toggler
+3 class="navbar-toggler-icon
+4 class="collapse navbar-collapse
+5 class="navbar-nav
+6 class="nav-item nav-link
+7 class="alert alert-danger alter-dismissable fade show
+8 class="close"
+9 class="container"
+
+Home.html
+1 class="container"
+2 class="row"
+3 class="col-sm-12 text-center"
+4 class="mb-3"
+5 class="btn btn-secondary d-block mx-auto"
+
+Login.html
+1 class="form-group"
+2 class="form-control"
+3 class="btn btn-primary"
+
+Leaderboard.html
+
+1 .btn-secondary
+2 .btn-group
+3 .leaderboard-container
+4 .leaderboard
+5 .leaderboard table
+6 .leaderboard th
+7 .leaderboard td
+8 class="d-flex justify-content-start"
+9 class="btn-group"
+10 class="btn btn-secondary"
+
+MPM.html
+
+1 .btn-secondary
+2 .btn-group
+
+MWM.html
+
+No classes in this file.
+
+Performance.html
+
+1 .btn-secondary
+2 .btn-group
+3 .performance-module
+4 .performance-title
+5 .graph-container
+6 .graph-placeholder
+7 .button-container
+8 .button-container btn
+9 .dropdown-content
+10 .dropdown-content a
+11 .dropdown-content a:hover
+12 .dropdown-content.horizontal
+13 .total-calls-number
+
+
+Sign_up.html
+
+1 class="form-group"
+2 class="btn btn-primary"
+
+
+Trading_tools.html
+
+1 .btn-secondary a 
+2 .btn-group
+3 .search-container 
+4 .search-input
+5 .search-btn
+6 .centered-content
+7 .additional-columns
+8 .additional-columns td
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

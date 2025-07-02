@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}McAlvany Private Server{% endblock %}
+
+{% block content %}
+<style>
+    .upload-container {
+        position: absolute;
+        max-width: 600px;
+        background-color: #444;
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block;
+        margin: 10px; /* Added margin for spacing between containers */
+    }
+
+    .upload-container h2 {
+        color: white;
+    }
+
+    .button-container {
+        margin-top: 200px;
+    }
+
+    .toggle-switch {
+        display: inline-block;
+        margin-right: 20px; /* Adjust spacing between toggle switches */
+        text-align: center; /* Center the toggle switches */
+    }
+
+    .toggle-switch h3 {
+        font-size: 28px; /* Adjust font size of toggle titles */
+        margin-bottom: 5px; /* Add space between title and toggle switch */
+    }
+
+    .toggle-switch input[type="checkbox"] {
+        display: none;
+    }
+
+    .toggle-slider {
+        position: relative;
+        cursor: pointer;
+        display: block;
+        width: 60px;
+        height: 34px; /* Adjust height of toggle switches */
+        background-color: #e2d8d8;
+        border-radius: 34px;
+        transition: background-color 0.4s;
+        margin: 0 auto; /* Center the toggle slider horizontally */
+    }
+
+    .toggle-slider:before {
+        content: "";
+        position: absolute;
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.4s;
+    }
+
+    input[type="checkbox"]:checked + .toggle-slider {
+        background-color: #0e6d23;
+    }
+
+    input[type="checkbox"]:checked + .toggle-slider:before {
+        transform: translateX(26px);
+    }
+
+    /* New class for the slider container */
+    .slider-container {
+        margin-top: 70px; /* Adjust this value to move the toggle switches vertically */
+        text-align: center; /* Center the toggle switches horizontally */
+    }
+</style>
+
+
+
+<h1 align="center" style="color: white;">Admin Tools</h1>
+<div class="upload-container" style="left: 1%;">
+    <h2>Upload Trades</h2>
+    <form action="/admin" method="post" enctype="multipart/form-data">
+        <input type="file" name="file1" accept=".csv">
+        <input type="hidden" name="data_type" value="type1">
+        <button type="submit" style="width: 100%;">Upload</button> <!-- Set width to 100% -->
+    </form>
+</div>
+
+<div class="upload-container" style="left: 34%;">
+    <h2>Upload Leads</h2>
+    <form action="/admin" method="post" enctype="multipart/form-data">
+        <input type="file" name="file2" accept=".csv">
+        <input type="hidden" name="data_type" value="type2">
+        <button type="submit" style="width: 100%;">Upload</button> <!-- Set width to 100% -->
+    </form>
+</div>
+
+<div class="upload-container" style="left: 67%;">
+    <h2>Upload Clients</h2>
+    <form action="/admin" method="post" enctype="multipart/form-data">
+        <input type="file" name="file3" accept=".csv">
+        <input type="hidden" name="data_type" value="type3">
+        <button type="submit" style="width: 100%;">Upload</button> <!-- Set width to 100% -->
+    </form>
+</div>
+
+<div class="text-center">
+    <div class="button-container">
+        <h2 style="color: white;">Select Broker Data</h2>
+        <div class="btn-group" role="group" aria-label="Button group with nested links">
+            <button class="btn btn-secondary" onclick="updateBroker('B0098126', 'grp_1_tory')">Tory</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098147', 'grp_1_arries')">Arries</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098059', 'grp_1_dobesh')">Dobesh</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098004', 'grp_1_mclaughlin')">Mclaughlin</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098065', 'grp_1_etz')">Etz</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098014', 'grp_1_orrick')">Orrick</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098170', 'grp_1_streets')">Genson</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098123', 'grp_1_goodin')">Goodin</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098106', 'grp_1_horsey')">Horsey</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098109', 'grp_1_miles')">Green</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098166', 'grp_1_shayla')">Shayla</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098166', 'grp_1_steve')">Connell</button>
+            <button class="btn btn-secondary" onclick="updateBroker('B0098175', 'grp_1_josh')">Josh</button>
+            <button class="btn btn-secondary" onclick="updateBroker('admin', 'grp_3_admin')">Admin</button>
+        </div>
+    </div>
+</div>
+
+<div class="slider-container">
+    <div class="toggle-switch">
+        <h3 style="color: white;">Allow Portfolio Updates</h3>
+        <input type="checkbox" id="feature1" {% if toggle_states['feature1_enabled'] %}checked{% endif %}>
+        <label for="feature1" class="toggle-slider"></label>
+    </div>
+    <div class="toggle-switch">
+        <h3 style="color: white;">Allow Calculation Updates</h3>
+        <input type="checkbox" id="feature2" {% if toggle_states['feature2_enabled'] %}checked{% endif %}>
+        <label for="feature2" class="toggle-slider"></label>
+    </div>
+    <div class="toggle-switch">
+        <h3 style="color: white;">To Be Determined</h3>
+        <input type="checkbox" id="feature3" {% if toggle_states['feature3_enabled'] %}checked{% endif %}>
+        <label for="feature3" class="toggle-slider"></label>
+    </div>
+    <!-- Add more toggle switches for additional features if needed -->
+</div>
+
+<script>
+    function updateBroker(brokerNumber, groupIdentifier) {
+        // Send the brokerNumber and groupIdentifier to the backend using fetch or XMLHttpRequest
+        fetch('/admin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                brokerNumber: brokerNumber,
+                groupIdentifier: groupIdentifier
+            })
+        }).then(response => {
+            if (response.ok) {
+                console.log('Broker data updated successfully');
+                // You can add any additional logic here
+            } else {
+                console.error('Failed to update broker data');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Function to handle toggling of switches and sending data to backend
+    function handleToggleSwitchChange(featureName, isChecked) {
+        // You can use AJAX (or fetch) to send the state of the switch to the backend
+        // Here, I'm using fetch for simplicity
+        fetch('/admin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                feature: featureName,
+                enabled: isChecked
+            })
+        }).then(response => {
+            if (response.ok) {
+                console.log(`Feature ${featureName} toggled successfully`);
+            } else {
+                console.error(`Failed to toggle feature ${featureName}`);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Add event listeners to each toggle switch
+    document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(input => {
+        input.addEventListener('change', function() {
+            const featureName = this.id; // Use the ID of the input element as the feature name
+            const isChecked = this.checked; // Get the state of the checkbox
+            handleToggleSwitchChange(featureName, isChecked);
+        });
+    });
+</script>
+
+{% endblock %}

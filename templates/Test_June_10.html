@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="Styles/main.css"/>
+
+    <title>{% block title %}ACME Private Server{% endblock %}</title>
+  </head>
+  <body>
+
+    
+    <nav class="sidebar">
+      <img src="images/McAlvany_Logo_Dk_Blue_BG.png" alt="McAlvany Wealth Management Logo" />
+<!--
+      <img src="{{ url_for('static', filename='images/McAlvany_Logo_Dk_Blue_BG') }}" alt="McAlvany Logo" />
+ -->     
+<!-- 
+      <div class="sidebar-menu">
+        {% if current_user.is_authenticated %}
+        <div class="menu-item"><a href="/">Home</a></div>
+        <div class="menu-item"><a href="/mcalvanypm">Precious Metals</a></div>
+        <div class="menu-item"><a href="/mcalvanywm">Wealth Management</a></div>
+        {% if current_user.email == 'koa@mcalvany.com' %}
+        <div class="menu-item"><a href="/admin">Admin</a></div>
+        {% endif %}
+        <div class="menu-item"><a href="/logout">Logout</a></div>
+        {% else %}
+        <div class="menu-item"><a href="/login">Login</a></div>
+        <div class="menu-item"><a href="/sign-up">Sign Up</a></div>
+        {% endif %}
+      </div>
+
+      -->
+
+<div class="sidebar">
+  <!-- 
+    <img src="images/Logo_01.png" alt="McAlvany">
+-->
+
+    <div class="sidebar-menu">
+        <div class="menu-item" onclick="toggleSubmenu(0)">Dashboard</div>
+
+        <div class="submenu" id="submenu-0">
+			 {% if user.is_authenticated %}
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="pm" href="/mcalvanypm">Precious Metals</a>
+          <a class="nav-item nav-link" id="mwm" href="/mcalvanymwm">Wealth Management</a>
+          {% if current_user.email == 'koa@mcalvany.com' %}
+          <a class="nav-item nav-link" id="admin" href="/admin">Admin</a>
+          {% endif %}
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          {% else %}
+          <a class="nav-item nav-link" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          {% endif %}
+
+			
+			
+			
+        </div>
+		
+		<div class="menu-item tooltip" onclick="toggleSubmenu(1)" onmouseover="showPrices(this)">Menu 1
+            <!-- <span class="tooltip-text"></span> -->
+        </div>
+        <div class="submenu" id="submenu-1">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+		
+        <div class="menu-item tooltip" onclick="toggleSubmenu(2)" onmouseover="showPrices(this)">Gold/Silver $
+            <span class="tooltip-text"></span>
+        </div>
+        <div class="submenu" id="submenu-2">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+        <div class="menu-item tooltip" onclick="toggleSubmenu(3)" onmouseover="showPlatDiam(this)">Platinum/Diamonds $
+            <span class="tooltip-text"></span>
+        </div>
+        <div class="submenu" id="submenu-3">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+
+    </div>
+</div>
+
+      
+
+    </nav>
+    <div class="content">
+      <div class="header-div">
+        <span class="login-text">
+          {% if current_user.is_authenticated %}
+            Welcome, {{ current_user.email }}
+          {% else %}
+            Please log in
+          {% endif %}
+        </span>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="panel {{ 'error' if category == 'error' else 'success' }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

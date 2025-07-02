@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Explorer App Mockup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f9fc;
+        }
+
+        .sidebar {
+            width: 200px;
+			border-radius: 8px;			
+            background-color: #000;
+            color: #fff;
+            height: 100vh; /* sets the height of an element to be equal to 100% */
+            position: fixed; 
+			margin:5px; /* Margin is the outside distance of object */
+            top: 10px;
+            left: 10px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+			
+			 
+			/* Other attributes */
+			box-shadow: 5px 5px 5px 0.1px gray;/* the drop shawdow of the column */
+			
+		
+        }
+
+        .sidebar img {
+            width: 175px;
+            margin-bottom: 20px;
+        }
+
+.sidebar-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Stretches menu items to match sidebar width */
+}
+
+.menu-item {
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensures full width inside the sidebar */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+        .menu-item:hover {
+            background-color: #333;
+        }
+
+        .submenu {
+            display: none;
+            background-color: #222;
+            padding-left: 20px;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .submenu a:hover {
+            background-color: #444;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .panel-content {
+            display: none;
+            padding-top: 10px;
+        }
+
+        .panel-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .panel-content th, .panel-content td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search button:hover {
+            background-color: #0056b3;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+		
+		
+        tr:hover {
+            /* background-color: #f2f2f2; Lt. Gray */ 
+			background-color: #DDEEF3; /*Lt Blue-Gray */
+        }
+		
+		
+	
+ .panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .panel th, .panel td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+		
+		.login_text {
+		/* color: #04385C; */
+		color:#045F80; 
+		font-size: 20px;
+		font-weight: bold;
+		}
+		
+		
+    </style>
+	
+</head>
+<body>
+
+<div class="sidebar">
+    <img src="images/Logo_01.png" alt="McAlvany">
+    <div class="sidebar-menu">
+        <div class="menu-item" onclick="toggleSubmenu(0)">Dashboard</div>
+        <div class="submenu" id="submenu-0">
+            <!--
+			<a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+			-->
+			
+			 {% if user.is_authenticated %}
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="pm" href="/mcalvanypm">Precious Metals</a>
+          <a class="nav-item nav-link" id="mwm" href="/mcalvanymwm">Wealth Management</a>
+          {% if current_user.email == 'koa@mcalvany.com' %}
+          <a class="nav-item nav-link" id="admin" href="/admin">Admin</a>
+          {% endif %}
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          {% else %}
+          <a class="nav-item nav-link" id="login" href="/login">Login</a>
+          <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+          {% endif %}
+
+			
+			
+			
+        </div>
+		
+		<div class="menu-item tooltip" onclick="toggleSubmenu(1)" onmouseover="showPrices(this)">Menu 1
+            <!-- <span class="tooltip-text"></span> -->
+        </div>
+        <div class="submenu" id="submenu-1">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+		
+        <div class="menu-item tooltip" onclick="toggleSubmenu(2)" onmouseover="showPrices(this)">Gold/Silver $
+            <span class="tooltip-text"></span>
+        </div>
+        <div class="submenu" id="submenu-2">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+        <div class="menu-item tooltip" onclick="toggleSubmenu(3)" onmouseover="showPlatDiam(this)">Platinum/Diamonds $
+            <span class="tooltip-text"></span>
+        </div>
+        <div class="submenu" id="submenu-3">
+            <a href="#">Submenu 1</a>
+            <a href="#">Submenu 2</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="content">
+	
+	<div name="header_div">
+	
+		<div style="display: inline-block; width:auto; height: 100px; background-color:#f5f9fc;"  ><h1>Account Explorer App</h1></div>
+		
+		<div class="login_text" style="display: inline-block; width: auto; height: auto; margin-left:40%;" >Welcome: Miles A. Head</div>
+	
+	</div>
+	   
+    
+	
+
+    <div class="panel">
+        <div class="panel-header" onclick="togglePanel(this)">
+            <h2>Clients</h2>
+            <button class="btn">Add Client</button>
+        </div>
+        <div class="panel-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Account</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Imma Champion</td>
+                        <td>IC00710401132025</td>
+                    </tr>
+                    <tr>
+                        <td>Rocky Rhoades</td>
+                        <td>RR70172201122025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header" onclick="togglePanel(this)">
+            <h2>Cost Summary</h2>
+            <button class="btn">Add Formula Row</button>
+        </div>
+        <div class="panel-content">
+            <div class="search">
+                <input type="text" placeholder="Search...">
+                <button>Search</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Formula</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BR0203</td>
+                        <td>$399,829.941</td>
+                    </tr>
+                    <tr>
+                        <td>BR0205</td>
+                        <td>$420,484.298</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+	
+	    <div class="faq-panel">
+        <div class="faq">
+            <div class="question" onclick="toggleFaq(this)">How to create a search?</div>
+            <div class="answer">You can use the following terms in your search:...</div>
+        </div>
+        <div class="faq">
+            <div class="question" onclick="toggleFaq(this)">What are the supported variables?</div>
+            <div class="answer">The supported variables include:...</div>
+        </div>
+	</div>
+
+  <div class="panel" >
+        <table id="client">
+            <thead>
+                <tr>
+                    <th >Appt. Date</th>
+                    <th >Appt. Time</th>
+                    <th >Provider Name</th>
+                    <th >Patient Name</th>
+                    <th >Appt. Status</th>
+                    <th >Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="expandable-row" onclick="toggleRow(this)">
+                    <td>01/20/2022</td>
+                    <td>10:00 AM</td>
+                    <td>Dr. Smith</td>
+                    <td>John Doe</td>
+                    <td>Cancelled</td>
+                    <td><button>Print</button></td>
+                </tr>
+                <tr class="expanded-content">
+                    <td colspan="6">Additional details about the appointment...</td>
+                </tr>
+                <tr class="expandable-row" onclick="toggleRow(this)">
+                    <td>01/21/2022</td>
+                    <td>11:00 AM</td>
+                    <td>Dr. Brown</td>
+                    <td>Jane Doe</td>
+                    <td>Completed</td>
+                    <td><button>Print</button></td>
+                </tr>
+                <tr class="expanded-content">
+                    <td colspan="6">Additional details about the appointment...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+	
+	
+	<div class="panel">
+        <div class="panel-header" onclick="togglePanel(this)">
+            <h2>Cost Summary Number 2</h2>
+            <button class="btn">Add Something</button>
+        </div>
+        <div class="panel-content">
+            <div class="search">
+                <input type="text" placeholder="Search...">
+                <button>Search</button>
+            </div>
+ 			<table>
+            <thead>
+                <tr>
+                    <th>Appt. Date</th>
+                    <th>Appt. Time</th>
+                    <th>Provider Name</th>
+                    <th>Patient Name</th>
+                    <th>Appt. Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="expandable-row" onclick="toggleRow(this)">
+                    <td>01/20/2022</td>
+                    <td>10:00 AM</td>
+                    <td>Dr. Smith</td>
+                    <td>John Doe</td>
+                    <td>Cancelled</td>
+                    <td><button>Print</button></td>
+                </tr>
+                <tr class="expanded-content">
+                    <td colspan="6">Additional details about the appointment...</td>
+                </tr>
+                <tr class="expandable-row" onclick="toggleRow(this)">
+                    <td>01/21/2022</td>
+                    <td>11:00 AM</td>
+                    <td>Dr. Brown</td>
+                    <td>Jane Doe</td>
+                    <td>Completed</td>
+                    <td><button>Print</button></td>
+                </tr>
+                <tr class="expanded-content">
+                    <td colspan="6">Additional details about the appointment...</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+	
+	</div>
+	
+ </div>
+
+<div>
+	
+<!-- EMPTY for now -->	
+	
+</div>	
+	
+	
+	
+	
+<script>
+function toggleSubmenu(index) {
+    const allSubmenus = document.querySelectorAll('.submenu');
+    allSubmenus.forEach((submenu, idx) => {
+        if (idx === index) {
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        } else {
+            submenu.style.display = 'none';
+        }
+    });
+}
+
+function togglePanel(header) {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+}
+
+function showPrices(element) {
+    const tooltip = element.querySelector('.tooltip-text');
+    const silverPrice = (Math.random() * 50).toFixed(2); // Simulated silver price
+    const goldPrice = (Math.random() * 2000).toFixed(2); // Simulated gold price
+    tooltip.textContent = `Silver: $${silverPrice}/oz, Gold: $${goldPrice}/oz`;
+}
+
+function showPlatDiam(element) {
+    const tooltip = element.querySelector('.tooltip-text');
+    const PlatPrice = (Math.random() * 50).toFixed(2); // Simulated Platinumr price
+    const DiamPrice = (Math.random() * 2000).toFixed(2); // Simulated Diamonds price
+    tooltip.textContent = `Platinum: $${PlatPrice}/oz, Diamonds: $${DiamPrice}/oz`;
+}
+
+function toggleFaq(faqElement) {
+    const answer = faqElement.nextElementSibling;
+    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+}
+	
+	
+/* Newly added functions for the form behavior: 01/14/2025 */	
+	
+function toggleRow(row) {
+    const nextRow = row.nextElementSibling;
+    if (nextRow && nextRow.classList.contains('expanded-content')) {
+        nextRow.style.display = nextRow.style.display === 'table-row' ? 'none' : 'table-row';
+    }
+}
+	
+	
+function sortTable(columnIndex) {
+    const table = document.getElementById('client');
+    const rows = Array.from(table.rows).slice(1);
+    rows.sort((a, b) => a.cells[columnIndex].innerText.localeCompare(b.cells[columnIndex].innerText));
+    rows.forEach(row => table.tBodies[0].appendChild(row));
+}
+	
+	
+	
+</script>
+
+<!-- Koa Scripts-->
+ <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous" >
+	</script>
+<!-- Koa Scripts  END -->
+	
+	
+</body>
+</html>

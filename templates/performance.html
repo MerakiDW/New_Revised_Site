@@ -1,0 +1,311 @@
+{% extends "base.html" %} 
+{% block title %}McAlvany Private Server{% endblock %} 
+{% block content %}
+<head>
+    <style>
+        /* Your existing styles */
+        .btn-secondary a {
+            color: white;
+            text-decoration: none; /* Optionally remove underlines */
+        }
+        .btn-group {
+            position: absolute;
+            left: .1%;
+        }
+        body {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .performance-module {
+            background-color: #333;
+            color: #fff;
+            padding: 20px; 
+            border-radius: 50px;
+            width: calc(100% - 40px); /* Adjust width as needed */
+            max-width: 480px; /* Adjust max-width as needed */
+            position: absolute;
+            margin-top: 130px;
+            justify-content: flex-start;
+            left: .5%;
+        }
+        .performance-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .graph-container {
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            background-color: #444;
+            margin-top: 10px;
+            border-radius: 50px;
+        }
+        .graph-placeholder {
+            text-align: center;
+            padding-top: 10px;
+            font-size: 22px;
+            color: #ccc;
+        }
+        .button-container {
+            position: absolute;
+            top: 100px; /* Adjust top position as needed */
+            left: .1%;
+            display: flex;
+            flex-direction: column;
+        }
+        .button-container .btn {
+            margin-bottom: .5px; /* Adjust margin between buttons */
+            position: relative; /* Ensure relative positioning for buttons */
+        }
+        /* Dropdown content initially hidden */
+        .dropdown-content {
+            display: none; /* Hide dropdown content by default */
+            position: absolute;
+            background-color: #333;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: none; /* Hide dropdown items by default */
+        }
+        
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+        /* Position dropdown content horizontally */
+        .dropdown-content.horizontal {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .total-calls-number {
+            text-align: center; /* Center the text */
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Button group -->
+    <div class="btn-group" role="group" aria-label="Button group with nested links">
+        <a href="/leaderboard" class="btn btn-secondary ">Leaderboards</a>
+        <a href="/tradingmpm" class="btn btn-secondary">Trading Tools</a>
+        <a href="/performance" class="btn btn-secondary">Performance</a>
+    </div>
+    <!-- Button container for time period selection -->
+    <div class="button-container">
+        <button class="btn btn-secondary" id="month-btn">Month</button>
+        <form method="post" action="/performance">
+            <div class="dropdown-content horizontal" id="month-dropdown">
+                <a href="#" data-date-range="January">January</a>
+                <a href="#" data-date-range="February">February</a>
+                <a href="#" data-date-range="March">March</a>
+                <a href="#" data-date-range="April">April</a>
+                <a href="#" data-date-range="May">May</a>
+                <a href="#" data-date-range="June">June</a>
+                <a href="#" data-date-range="July">July</a>
+                <a href="#" data-date-range="August">August</a>
+                <a href="#" data-date-range="September">September</a>
+                <a href="#" data-date-range="October">October</a>
+                <a href="#" data-date-range="November">November</a>
+                <a href="#" data-date-range="December">December</a>
+                <!-- Add more months as needed -->
+            </div>
+        </form>
+        <button class="btn btn-secondary" id="quarter-btn">Quarter</button>
+        <form method="post" action="/performance">
+            <div class="dropdown-content horizontal" id="quarter-dropdown">
+                <a href="#" data-date-range="YTD">YTD</a>
+                <a href="#" data-date-range="Q1">Q1</a>
+                <a href="#" data-date-range="Q2">Q2</a>
+                <a href="#" data-date-range="Q3">Q3</a>
+                <a href="#" data-date-range="Q4">Q4</a>
+            </div>
+        </form>
+    </div>
+    <!-- Performance Module 1 -->
+    <div class="performance-module" >
+        <div class="performance-title">Inbound Call Data</div>
+        <div class="graph-container">
+            <div class="graph-placeholder">Total Calls</div>
+            <div class="total-calls-number">{{ call_in_total }}</div>
+            <div class="graph-placeholder">Call Duration</div>
+            <div class="total-calls-number">{{ call_in_duration }}</div>
+            <div class="graph-placeholder">Peak Hours</div>
+            <div class="total-calls-number">Maintenance</div>
+            <div class="graph-placeholder">Missed Calls</div>
+            <div class="total-calls-number">Maintenance</div>
+        </div>
+       
+    </div>
+    <!-- Performance Module 2 -->
+    <div class="performance-module" style="top: 437px;">
+        <div class="performance-title">Outbound Call Data</div>
+        <div class="graph-container">
+            <div class="graph-placeholder">Total Calls</div>
+            <div class="total-calls-number">{{ call_out_total }}</div>
+            <div class="graph-placeholder">Call Duration</div>
+            <div class="total-calls-number">{{ call_out_duration }}</div>
+            <div class="graph-placeholder">Answered Calls</div>
+            <div class="total-calls-number">{{ temp_var_frontend }}</div>
+            <div class="graph-placeholder">Timezone Accuracy</div>
+            <div class="total-calls-number">{{ temp_var_frontend }}</div>
+        </div>
+        <!-- Additional content for Module 2 can be added here -->
+    </div>
+    <!-- Performance Module 3 -->
+    <div class="performance-module" style="left: 490px;">
+        <div class="performance-title">Sales Data</div>
+        <div class="graph-container">
+            <div class="graph-placeholder">Buy Trade Amount</div>
+            <div class="total-calls-number">{{ trade_buy_num }}</div>
+            <div class="graph-placeholder">Buy Trade Value</div>
+            <div class="total-calls-number">$ {{ trade_buy_val }}</div>
+            <div class="graph-placeholder">Sell Trade Amount</div>
+            <div class="total-calls-number">{{ trade_sell_num }}</div>
+            <div class="graph-placeholder">Sell Trade Value</div>
+            <div class="total-calls-number">$ {{ trade_sell_val }}</div>
+        </div>
+        <!-- Additional content for Module 3 can be added here -->
+    </div>
+
+    <!-- Performance Module 4 -->
+    <div class="performance-module" style="top: 437px; left: 490px;">
+        <div class="performance-title">Rare Coin Sales Data</div>
+        <div class="graph-container">
+            <div class="graph-placeholder">Buy Trade Amount</div>
+            <div class="total-calls-number">{{ rare_buy_num }}</div>
+            <div class="graph-placeholder">Buy Trade Value</div>
+            <div class="total-calls-number">$ {{ rare_buy_val }}</div>
+            <div class="graph-placeholder">Sell Trade Amount</div>
+            <div class="total-calls-number">{{ rare_sell_num }}</div>
+            <div class="graph-placeholder">Sell Trade Value</div>
+            <div class="total-calls-number">$ {{ rare_sell_val }}</div>
+        </div>
+        <!-- Additional content for Module 4 can be added here -->
+    </div>
+    <!-- Performance Module 5 -->
+    <div class="performance-module" style="left: 972px;">
+        <div class="performance-title">Client Data</div>
+        <div class="graph-container" >
+            <div class="graph-placeholder" style="font-size: 16px;">Total Clients</div>
+            <div class="total-calls-number" style="font-size: 16px;">{{ client_total }}</div>
+            <div class="graph-placeholder" style="font-size: 16px;">New Clients</div>
+            <div class="total-calls-number" style="font-size: 16px;">{{ new_clients }}</div>
+            <div class="graph-placeholder" style="font-size: 16px;">Total Leads</div>
+            <div class="total-calls-number" style="font-size: 16px;">{{ leads_total }}</div>
+            <div class="graph-placeholder" style="font-size: 16px;">New Leads</div>
+            <div class="total-calls-number" style="font-size: 16px;">{{ new_leads }}</div>
+            <div class="graph-placeholder" style="font-size: 16px;">Client Referrals</div>
+            <div class="total-calls-number" style="font-size: 16px;">{{ new_client_refs }}</div>
+            
+        </div>
+        <!-- Additional content for Module 3 can be added here -->
+    </div>
+
+    <!-- Performance Module 6 -->
+    <div class="performance-module" style="top: 437px; left: 972px;">
+        <div class="performance-title">Vaulted Data</div>
+        <div class="graph-container">
+            <div class="graph-placeholder">Vaulted Leads</div>
+            <div class="total-calls-number">{{ vaulted_total }}</div>
+            <div class="graph-placeholder">New Vaulted Leads</div>
+            <div class="total-calls-number">{{ new_vaulted }}</div>
+            <div class="graph-placeholder">Active Vaulted Accounts</div>
+            <div class="total-calls-number">{{ temp_var_frontend }}</div>
+            <div class="graph-placeholder">Conversion</div>
+            <div class="total-calls-number">{{ temp_var_frontend }}</div>
+        </div>
+        <!-- Additional content for Module 4 can be added here -->
+    </div>
+
+
+    <!-- Add more performance modules as needed -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to toggle dropdown visibility
+            function toggleDropdown(buttonId, dropdownId) {
+                var dropdownContent = document.getElementById(dropdownId);
+                var button = document.getElementById(buttonId);
+    
+                // Position the dropdown to the right of the button
+                dropdownContent.style.top = button.offsetTop + 'px';
+                dropdownContent.style.left = button.offsetLeft + button.offsetWidth + 'px';
+    
+                // Hide all dropdowns except the one corresponding to the clicked button
+                document.querySelectorAll('.dropdown-content').forEach(function(item) {
+                    if (item.id !== dropdownId) {
+                        item.style.display = "none";
+                    }
+                });
+    
+                // Toggle display of the clicked dropdown
+                dropdownContent.style.display = (dropdownContent.style.display === "none" || dropdownContent.style.display === "") ? "flex" : "none";
+    
+                // Toggle display of dropdown items
+                document.querySelectorAll('#' + dropdownId + ' a').forEach(function(item) {
+                    item.style.display = (dropdownContent.style.display === "flex") ? "inline-block" : "none";
+                });
+            }
+    
+            // Event listeners for button clicks to toggle dropdowns
+            document.getElementById("month-btn").addEventListener("click", function() {
+                toggleDropdown("month-btn", "month-dropdown");
+            });
+            document.getElementById("quarter-btn").addEventListener("click", function() {
+                toggleDropdown("quarter-btn", "quarter-dropdown");
+            });
+    
+            // Add event listeners for form submission
+            document.getElementById("month-dropdown").querySelectorAll("a").forEach(function(item) {
+                item.addEventListener("click", function() {
+                    var form = document.createElement("form");
+                    form.setAttribute("method", "post");
+                    form.setAttribute("action", "/performance");
+                    var input = document.createElement("input");
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("name", "dateRange");
+                    input.setAttribute("value", this.getAttribute("data-date-range"));
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+    
+            document.getElementById("quarter-dropdown").querySelectorAll("a").forEach(function(item) {
+                item.addEventListener("click", function() {
+                    var form = document.createElement("form");
+                    form.setAttribute("method", "post");
+                    form.setAttribute("action", "/performance");
+                    var input = document.createElement("input");
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("name", "dateRange");
+                    input.setAttribute("value", this.getAttribute("data-date-range"));
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            });
+        });
+    </script>
+</body>
+{% endblock %}
